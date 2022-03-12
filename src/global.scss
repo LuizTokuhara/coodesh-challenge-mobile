@@ -24,3 +24,13 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+
+.user-card-modal {
+  --border-radius: 20px;
+  &::part(content) {
+    position: absolute;
+    height: 100%;
+    bottom: 0;
+    background: none;
+  }
+}
