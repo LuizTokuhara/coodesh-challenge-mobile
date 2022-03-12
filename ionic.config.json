@@ -1,0 +1,7 @@
+{
+  "name": "coodesh-challenge-ionic",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
