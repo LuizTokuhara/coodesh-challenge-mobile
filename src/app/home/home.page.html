@@ -11,7 +11,8 @@
 
 <ion-content>
   <ion-list>
-    <app-user-card *ngFor="let user of users$ | async; let i = index" (click)="open(user)" [user]="user">
+    <app-user-card [@fadeAnimation] *ngFor="let user of users$ | async; let i = index" (click)="open(user)"
+      [user]="user">
     </app-user-card>
   </ion-list>
   <ion-infinite-scroll threshold="100px" (ionInfinite)="loadMore($event)">

@@ -1,16 +1,23 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { IonInfiniteScroll, ModalController } from '@ionic/angular';
+import {
+  IonInfiniteScroll,
+  LoadingController,
+  ModalController,
+} from '@ionic/angular';
 import { BehaviorSubject, combineLatest, forkJoin, Observable, of } from 'rxjs';
 import { map, startWith, take } from 'rxjs/operators';
 import { UserCardModalComponent } from '../components/user-card-modal/user-card-modal.component';
 import { User, UserResults } from '../shared/interfaces/user.interface';
+import { LoadingService } from '../shared/services/loading/loading.service';
 import { HomeService } from './use-cases/home.service';
+import { fadeAnimation } from '../shared/services/fade/fade.service';
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
+  animations: [fadeAnimation],
 })
 export class HomePage implements OnInit {
   @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
@@ -23,7 +30,8 @@ export class HomePage implements OnInit {
 
   constructor(
     private modalCtrl: ModalController,
-    private homeService: HomeService
+    private homeService: HomeService,
+    private loading: LoadingService
   ) {}
 
   ngOnInit() {
@@ -32,12 +40,14 @@ export class HomePage implements OnInit {
   }
 
   fetchUsers() {
+    this.loading.show();
     this.homeService.getUsers(this.page).subscribe((resp) => {
       this.page++;
       this.userSubject$.value !== undefined
         ? this.userSubject$.next([...this.userSubject$.value, ...resp.results])
         : this.userSubject$.next(resp.results);
       this.filterUsersByName();
+      this.loading.hide();
     });
   }
 
@@ -54,7 +64,10 @@ export class HomePage implements OnInit {
           (user) =>
             searchTerm === '' ||
             user.name.first.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            user.name.last.toLowerCase().includes(searchTerm.toLowerCase())
+            user.name.last.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            user.location.country
+              .toLowerCase()
+              .includes(searchTerm.toLowerCase())
         )
       )
     );
@@ -75,8 +88,8 @@ export class HomePage implements OnInit {
       component: UserCardModalComponent,
       cssClass: 'user-card-modal',
       backdropDismiss: true,
-      initialBreakpoint: 0.7,
-      breakpoints: [0, 0.7],
+      initialBreakpoint: 0.8,
+      breakpoints: [0, 0.8],
       handle: false,
       componentProps: {
         user: data,
