@@ -1,0 +1,74 @@
+.card_container {
+  display: grid;
+  grid-template-areas: "avatar right";
+  grid-template-columns: auto 1fr;
+  column-gap: 15px;
+  box-sizing: border-box;
+  width: 90%;
+  height: 100px;
+  padding: 15px;
+  border-radius: 15px;
+  overflow: hidden;
+  margin: 0 auto 15px auto;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+
+  &:first-child {
+    margin-top: 20px;
+  }
+
+  &__avatar {
+    grid-area: avatar;
+    width: 70px;
+    height: 70px;
+    border-radius: 15px;
+  }
+
+  &__right {
+    width: auto;
+    grid-area: right;
+
+    &__title {
+      margin: 0 0 10px 0;
+      font-size: 1.1em;
+      font-weight: 600;
+      color: var(--ion-color-dark);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    &__content {
+      font-size: 0.9em;
+      padding-bottom: 5px;
+
+      ion-icon {
+        color: var(--ion-color-dark-blue);
+      }
+
+      &:last-child {
+        padding-bottom: 0px;
+      }
+    }
+
+    .align_left {
+      font-size: 0.9em;
+      float: left;
+    }
+
+    .align_right {
+      font-size: 0.9em;
+      float: right;
+    }
+  }
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+.ion-activatable {
+  position: relative;
+  overflow: hidden;
+}

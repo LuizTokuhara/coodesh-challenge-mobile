@@ -3,28 +3,30 @@
 /** Ionic CSS Variables **/
 :root {
   /** primary **/
-  --ion-color-primary: --pharma-color-primary;
-  --ion-color-primary-rgb: --pharma-color-primary-rgb;
-  --ion-color-primary-contrast: --pharma-color-primary-contrast;
-  --ion-color-primary-contrast-rgb: --pharma-color-primary-contrast-rgb;
-  --ion-color-primary-shade: --pharma-color-primary-shade;
-  --ion-color-primary-tint: --pharma-color-primary-tint;
+  --ion-color-primary: var(--pharma-color-primary);
+  --ion-color-primary-rgb: var(--pharma-color-primary-rgb);
+  --ion-color-primary-contrast: var(--pharma-color-primary-contrast);
+  --ion-color-primary-contrast-rgb: var(--pharma-color-primary-contrast-rgb);
+  --ion-color-primary-shade: var(--pharma-color-primary-shade);
+  --ion-color-primary-tint: var(--pharma-color-primary-tint);
 
   /** secondary **/
-  --ion-color-secondary: --pharma-color-secondary;
-  --ion-color-secondary-rgb: --pharma-color-secondary-rgb;
-  --ion-color-secondary-contrast: --pharma-color-secondary-contrast;
-  --ion-color-secondary-contrast-rgb: --pharma-color-secondary-contrast-rgb;
-  --ion-color-secondary-shade: --pharma-color-secondary-shade;
-  --ion-color-secondary-tint: --pharma-color-secondary-tint;
+  --ion-color-secondary: var(--pharma-color-secondary);
+  --ion-color-secondary-rgb: var(--pharma-color-secondary-rgb);
+  --ion-color-secondary-contrast: var(--pharma-color-secondary-contrast);
+  --ion-color-secondary-contrast-rgb: var(
+    --pharma-color-secondary-contrast-rgb
+  );
+  --ion-color-secondary-shade: var(--pharma-color-secondary-shade);
+  --ion-color-secondary-tint: var(--pharma-color-secondary-tint);
 
   /** tertiary **/
-  --ion-color-tertiary: --pharma-color-tertiary;
-  --ion-color-tertiary-rgb: --pharma-color-tertiary-rgb;
-  --ion-color-tertiary-contrast: --pharma-color-tertiary-contrast;
-  --ion-color-tertiary-contrast-rgb: --pharma-color-tertiary-contrast-rgb;
-  --ion-color-tertiary-shade: --pharma-color-tertiary-shade;
-  --ion-color-tertiary-tint: --pharma-color-tertiary-tint;
+  --ion-color-tertiary: var(--pharma-color-tertiary);
+  --ion-color-tertiary-rgb: var(--pharma-color-tertiary-rgb);
+  --ion-color-tertiary-contrast: var(--pharma-color-tertiary-contrast);
+  --ion-color-tertiary-contrast-rgb: var(--pharma-color-tertiary-contrast-rgb);
+  --ion-color-tertiary-shade: var(--pharma-color-tertiary-shade);
+  --ion-color-tertiary-tint: var(--pharma-color-tertiary-tint);
 
   /** success **/
   --ion-color-success: #2dd36f;
@@ -35,12 +37,12 @@
   --ion-color-success-tint: #42d77d;
 
   /** warning **/
-  --ion-color-warning: --pharma-color-warning;
-  --ion-color-warning-rgb: --pharma-color-warning-rgb;
-  --ion-color-warning-contrast: --pharma-color-warning-contrast;
-  --ion-color-warning-contrast-rgb: --pharma-color-warning-contrast-rgb;
-  --ion-color-warning-shade: --pharma-color-warning-shade;
-  --ion-color-warning-tint: --pharma-color-warning-tint;
+  --ion-color-warning: var(--pharma-color-warning);
+  --ion-color-warning-rgb: var(--pharma-color-warning-rgb);
+  --ion-color-warning-contrast: var(--pharma-color-warning-contrast);
+  --ion-color-warning-contrast-rgb: var(--pharma-color-warning-contrast-rgb);
+  --ion-color-warning-shade: var(--pharma-color-warning-shade);
+  --ion-color-warning-tint: var(--pharma-color-warning-tint);
 
   /** danger **/
   --ion-color-danger: #eb445a;
@@ -58,12 +60,14 @@
   --ion-color-dark-shade: #1e2023;
   --ion-color-dark-tint: #383a3e;
 
-  --ion-color-dark-blue: --pharma-color-dark-blue;
-  --ion-color-dark-blue-rgb: --pharma-color-dark-blue-rgb;
-  --ion-color-dark-blue-contrast: --pharma-color-dark-blue-contrast;
-  --ion-color-dark-blue-contrast-rgb: --pharma-color-dark-blue-contrast-rgb;
-  --ion-color-dark-blue-shade: --pharma-color-dark-blue-shade;
-  --ion-color-dark-blue-tint: --pharma-color-dark-blue-tint;
+  --ion-color-dark-blue: var(--pharma-color-dark-blue);
+  --ion-color-dark-blue-rgb: var(--pharma-color-dark-blue-rgb);
+  --ion-color-dark-blue-contrast: var(--pharma-color-dark-blue-contrast);
+  --ion-color-dark-blue-contrast-rgb: var(
+    --pharma-color-dark-blue-contrast-rgb
+  );
+  --ion-color-dark-blue-shade: var(--pharma-color-dark-blue-shade);
+  --ion-color-dark-blue-tint: var(--pharma-color-dark-blue-tint);
 
   /** medium **/
   --ion-color-medium: #92949c;
