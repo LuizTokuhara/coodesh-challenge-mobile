@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { ModalController } from '@ionic/angular';
+import { User } from 'src/app/shared/interfaces/user.interface';
 
 @Component({
   selector: 'app-user-card-modal',
@@ -6,9 +8,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./user-card-modal.component.scss'],
 })
 export class UserCardModalComponent implements OnInit {
+  @Input() user: User;
 
-  constructor() { }
+  constructor(private modalCtrl: ModalController) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    console.log(this.user);
+  }
 
+  dismiss() {
+    this.modalCtrl.dismiss();
+  }
 }

@@ -1,7 +1,7 @@
 .card_container {
   display: grid;
   grid-template-areas: "avatar right";
-  grid-template-columns: auto 1fr;
+  grid-template-columns: 80px 1fr;
   column-gap: 15px;
   box-sizing: border-box;
   width: 90%;
@@ -11,6 +11,7 @@
   overflow: hidden;
   margin: 0 auto 15px auto;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+  background: linear-gradient(90deg, #00afad 1%, #fff 1%);
 
   &:first-child {
     margin-top: 20px;
@@ -32,6 +33,9 @@
   &__right {
     width: auto;
     grid-area: right;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 
     &__title {
       margin: 0 0 10px 0;
@@ -46,6 +50,9 @@
     &__content {
       font-size: 0.9em;
       padding-bottom: 5px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
 
       ion-icon {
         color: var(--ion-color-dark-blue);
@@ -77,8 +84,4 @@ ul {
 .ion-activatable {
   position: relative;
   overflow: hidden;
-}
-
-.card_container:nth-child(odd) {
-  background: linear-gradient(90deg, #00afad 1%, #fff 1%);
 }
