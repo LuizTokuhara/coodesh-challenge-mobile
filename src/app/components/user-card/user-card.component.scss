@@ -7,7 +7,7 @@
   width: 90%;
   height: 100px;
   padding: 15px;
-  border-radius: 15px;
+  border-radius: 3px;
   overflow: hidden;
   margin: 0 auto 15px auto;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
@@ -77,4 +77,8 @@ ul {
 .ion-activatable {
   position: relative;
   overflow: hidden;
+}
+
+.card_container:nth-child(odd) {
+  background: linear-gradient(90deg, #00afad 1%, #fff 1%);
 }
