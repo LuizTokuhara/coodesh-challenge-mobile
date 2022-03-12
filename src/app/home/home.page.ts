@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { IonInfiniteScroll, ModalController } from '@ionic/angular';
-import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, forkJoin, Observable, of } from 'rxjs';
+import { map, startWith, take } from 'rxjs/operators';
 import { UserCardModalComponent } from '../components/user-card-modal/user-card-modal.component';
 import { User, UserResults } from '../shared/interfaces/user.interface';
 import { HomeService } from './use-cases/home.service';
@@ -17,7 +17,7 @@ export class HomePage implements OnInit {
   private userSubject$: BehaviorSubject<User[] | undefined> =
     new BehaviorSubject(undefined);
 
-  public users$: Observable<User[]>;
+  public users$: Observable<User[]> = this.userSubject$.asObservable();
   private page: number = 1;
   public searchField: FormControl;
 
@@ -32,15 +32,21 @@ export class HomePage implements OnInit {
   }
 
   fetchUsers() {
+    this.homeService.getUsers(this.page).subscribe((resp) => {
+      this.page++;
+      this.userSubject$.value !== undefined
+        ? this.userSubject$.next([...this.userSubject$.value, ...resp.results])
+        : this.userSubject$.next(resp.results);
+      this.filterUsersByName();
+    });
+  }
+
+  async filterUsersByName() {
     const searchTerm$ = this.searchField.valueChanges.pipe(
       startWith(this.searchField.value)
     );
 
-    const userList$ = this.homeService
-      .getUsers(this.page)
-      .pipe(map((resp) => resp.results));
-
-    this.userSubject$.next([]);
+    const userList$ = of(this.userSubject$.value);
 
     this.users$ = combineLatest([userList$, searchTerm$]).pipe(
       map(([userList, searchTerm]) =>
@@ -54,22 +60,14 @@ export class HomePage implements OnInit {
     );
   }
 
-  async filterUsersByName() {
-    const searchTerm$ = this.searchField.valueChanges.pipe(
-      startWith(this.searchField.value)
-    );
-  }
-
   loadMore(event) {
-    // setTimeout(() => {
-    //   console.log('Done');
-    //   event.target.complete();
-    //   // App logic to determine if all data is loaded
-    //   // and disable the infinite scroll
-    //   if (this.users$.length === 1000) {
-    //     event.target.disabled = true;
-    //   }
-    // }, 500);
+    setTimeout(() => {
+      event.target.complete();
+      if (this.page === 5) {
+        event.target.disabled = true;
+      }
+      this.fetchUsers();
+    }, 500);
   }
 
   async open(data) {
