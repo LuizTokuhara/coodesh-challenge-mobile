@@ -4,6 +4,9 @@
       Blank
     </ion-title>
   </ion-toolbar>
+  <ion-toolbar>
+    <ion-searchbar [formControl]="searchField" debounce="100" mode="ios" showCancelButton="focus"></ion-searchbar>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content>
@@ -11,4 +14,8 @@
     <app-user-card *ngFor="let user of users$ | async; let i = index" (click)="open(user)" [user]="user">
     </app-user-card>
   </ion-list>
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="loadMore($event)">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>
