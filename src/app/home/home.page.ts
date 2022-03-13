@@ -7,7 +7,7 @@ import {
   PopoverController,
 } from '@ionic/angular';
 import { BehaviorSubject, combineLatest, forkJoin, Observable, of } from 'rxjs';
-import { map, startWith, take } from 'rxjs/operators';
+import { map, startWith, take, tap } from 'rxjs/operators';
 import { UserCardModalComponent } from '../components/user-card-modal/user-card-modal.component';
 import { User, UserResults } from '../shared/interfaces/user.interface';
 import { LoadingService } from '../shared/services/loading/loading.service';
@@ -51,35 +51,55 @@ export class HomePage implements OnInit {
       this.userSubject$.value !== undefined
         ? this.userSubject$.next([...this.userSubject$.value, ...resp.results])
         : this.userSubject$.next(resp.results);
-      this.filterUsersByName();
+
+      // this.filterUsersByName();
       this.loading.hide();
     });
   }
 
-  async filterUsersByName() {
+  async filterUsersByName(ev) {
     const searchTerm$ = this.searchField.valueChanges.pipe(
       startWith(this.searchField.value)
     );
+
+    if (ev.detail.value === '') {
+      this.genderSelected = '';
+    }
 
     const userList$ = of(this.userSubject$.value);
 
     this.users$ = combineLatest([userList$, searchTerm$]).pipe(
       map(([userList, searchTerm]) =>
         userList.filter(
-          (user) =>
-            searchTerm === '' ||
-            user.name.first.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            user.name.last.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            user.location.country
-              .toLowerCase()
-              .includes(searchTerm.toLowerCase())
+          (user) => {
+            return (
+              (user.gender.toLowerCase() ===
+                this.genderSelected.toLowerCase() &&
+                searchTerm === '') ||
+              user.name.first
+                .toLowerCase()
+                .includes(searchTerm.toLowerCase()) ||
+              user.name.last.toLowerCase().includes(searchTerm.toLowerCase()) ||
+              user.location.country
+                .toLowerCase()
+                .includes(searchTerm.toLowerCase())
+            );
+          }
+
+          // (user.gender.toLowerCase() === this.genderSelected.toLowerCase() &&
+          //   searchTerm === '') ||
+          // user.name.first.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          // user.name.last.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          // user.location.country
+          //   .toLowerCase()
+          //   .includes(searchTerm.toLowerCase())
         )
       )
     );
   }
 
   loadMore(event) {
-    if (!this.searchField.value && this.genderSelected === 'clear') {
+    if (!this.searchField.value && this.genderSelected === '') {
       setTimeout(() => {
         event.target.complete();
         if (this.page === 5) {
@@ -106,19 +126,23 @@ export class HomePage implements OnInit {
 
     const { data } = await popover.onDidDismiss();
     if (data) {
-      this.genderSelected = data;
-      this.filterByGender(data);
+      data === 'clear'
+        ? (this.genderSelected = '')
+        : (this.genderSelected = data);
+      this.filterByGender();
     }
   }
 
-  filterByGender(gender: string) {
+  filterByGender() {
     const userList$ = of(this.userSubject$.value);
 
-    this.users$ = combineLatest([userList$, of(gender)]).pipe(
+    const gender$ = of(this.genderSelected);
+
+    this.users$ = combineLatest([userList$, gender$]).pipe(
       map(([userList, genderTerm]) =>
         userList.filter(
           (user) =>
-            genderTerm === 'clear' ||
+            genderTerm === '' ||
             user.gender.toLowerCase() === genderTerm.toLowerCase()
         )
       )

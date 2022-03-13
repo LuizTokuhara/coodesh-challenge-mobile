@@ -25,6 +25,10 @@
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
 
+body {
+  padding: env(safe-area-inset-top) env(safe-area-inset-right)
+    env(safe-area-inset-bottom) env(safe-area-inset-left) !important;
+}
 .user-card-modal {
   --border-radius: 2px;
   &::part(content) {
@@ -33,4 +37,8 @@
     bottom: 0;
     background: none;
   }
+}
+
+.title-toolbar {
+  padding-top: 20px !important;
 }

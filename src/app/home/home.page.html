@@ -1,5 +1,5 @@
 <ion-header class="ion-no-border">
-  <ion-toolbar>
+  <ion-toolbar class="title-toolbar">
     <ion-title>
       Blank
     </ion-title>
@@ -7,7 +7,7 @@
   <ion-toolbar>
     <div class="search_container">
       <ion-searchbar class="search_container__searchbar" slot="start" [formControl]="searchField" debounce="100"
-        mode="ios" showCancelButton="focus">
+        mode="ios" showCancelButton="focus" (ionChange)="filterUsersByName($event)">
       </ion-searchbar>
       <ion-buttons slot="end">
         <ion-button (click)="openPopover($event)">
