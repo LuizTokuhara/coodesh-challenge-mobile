@@ -5,7 +5,16 @@
     </ion-title>
   </ion-toolbar>
   <ion-toolbar>
-    <ion-searchbar [formControl]="searchField" debounce="100" mode="ios" showCancelButton="focus"></ion-searchbar>
+    <div class="search_container">
+      <ion-searchbar class="search_container__searchbar" slot="start" [formControl]="searchField" debounce="100"
+        mode="ios" showCancelButton="focus">
+      </ion-searchbar>
+      <ion-buttons slot="end">
+        <ion-button (click)="openPopover($event)">
+          <ion-icon slot="icon-only" name="ellipsis-vertical-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </div>
   </ion-toolbar>
 </ion-header>
 
@@ -15,8 +24,10 @@
       [user]="user">
     </app-user-card>
   </ion-list>
+
   <ion-infinite-scroll threshold="100px" (ionInfinite)="loadMore($event)">
     <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
     </ion-infinite-scroll-content>
   </ion-infinite-scroll>
+
 </ion-content>

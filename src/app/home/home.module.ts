@@ -7,6 +7,7 @@ import { HomePage } from './home.page';
 import { HomePageRoutingModule } from './home-routing.module';
 import { UserCardComponent } from '../components/user-card/user-card.component';
 import { UserCardModalComponent } from '../components/user-card-modal/user-card-modal.component';
+import { GenderSelectComponent } from '../components/gender-select/gender-select.component';
 
 @NgModule({
   imports: [
@@ -16,6 +17,11 @@ import { UserCardModalComponent } from '../components/user-card-modal/user-card-
     HomePageRoutingModule,
     ReactiveFormsModule,
   ],
-  declarations: [HomePage, UserCardComponent, UserCardModalComponent],
+  declarations: [
+    HomePage,
+    UserCardComponent,
+    UserCardModalComponent,
+    GenderSelectComponent,
+  ],
 })
 export class HomePageModule {}

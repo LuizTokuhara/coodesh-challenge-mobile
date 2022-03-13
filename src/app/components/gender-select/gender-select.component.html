@@ -1,0 +1,17 @@
+<ion-content>
+  <ion-list>
+    <ion-list-header>
+      <ion-label>Filter by gender</ion-label>
+    </ion-list-header>
+    <ion-item button *ngFor="let item of popoverItems" (click)="selectGender(item)">
+      <ion-icon [name]="item.icon"></ion-icon>
+      <ion-label slot="end">
+        {{item.name}}
+        <ng-container *ngIf="itemSelected === item.name">
+          <ion-icon color="primary" name="checkmark-outline"></ion-icon>
+        </ng-container>
+      </ion-label>
+
+    </ion-item>
+  </ion-list>
+</ion-content>

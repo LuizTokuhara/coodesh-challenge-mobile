@@ -4,6 +4,7 @@ import {
   IonInfiniteScroll,
   LoadingController,
   ModalController,
+  PopoverController,
 } from '@ionic/angular';
 import { BehaviorSubject, combineLatest, forkJoin, Observable, of } from 'rxjs';
 import { map, startWith, take } from 'rxjs/operators';
@@ -12,6 +13,7 @@ import { User, UserResults } from '../shared/interfaces/user.interface';
 import { LoadingService } from '../shared/services/loading/loading.service';
 import { HomeService } from './use-cases/home.service';
 import { fadeAnimation } from '../shared/services/fade/fade.service';
+import { GenderSelectComponent } from '../components/gender-select/gender-select.component';
 
 @Component({
   selector: 'app-home',
@@ -21,17 +23,20 @@ import { fadeAnimation } from '../shared/services/fade/fade.service';
 })
 export class HomePage implements OnInit {
   @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
+
   private userSubject$: BehaviorSubject<User[] | undefined> =
     new BehaviorSubject(undefined);
 
   public users$: Observable<User[]> = this.userSubject$.asObservable();
   private page: number = 1;
   public searchField: FormControl;
+  public genderSelected: string = 'clear';
 
   constructor(
     private modalCtrl: ModalController,
     private homeService: HomeService,
-    private loading: LoadingService
+    private loading: LoadingService,
+    private popover: PopoverController
   ) {}
 
   ngOnInit() {
@@ -74,13 +79,50 @@ export class HomePage implements OnInit {
   }
 
   loadMore(event) {
-    setTimeout(() => {
+    if (!this.searchField.value && this.genderSelected === 'clear') {
+      setTimeout(() => {
+        event.target.complete();
+        if (this.page === 5) {
+          event.target.disabled = true;
+        }
+        this.fetchUsers();
+      }, 500);
+    } else {
       event.target.complete();
-      if (this.page === 5) {
-        event.target.disabled = true;
-      }
-      this.fetchUsers();
-    }, 500);
+    }
+  }
+
+  async openPopover(ev: any) {
+    const popover = await this.popover.create({
+      component: GenderSelectComponent,
+      event: ev,
+      translucent: true,
+      componentProps: {
+        itemSelected: this.genderSelected,
+      },
+    });
+
+    await popover.present();
+
+    const { data } = await popover.onDidDismiss();
+    if (data) {
+      this.genderSelected = data;
+      this.filterByGender(data);
+    }
+  }
+
+  filterByGender(gender: string) {
+    const userList$ = of(this.userSubject$.value);
+
+    this.users$ = combineLatest([userList$, of(gender)]).pipe(
+      map(([userList, genderTerm]) =>
+        userList.filter(
+          (user) =>
+            genderTerm === 'clear' ||
+            user.gender.toLowerCase() === genderTerm.toLowerCase()
+        )
+      )
+    );
   }
 
   async open(data) {
