@@ -7,7 +7,7 @@
   <ion-toolbar>
     <div class="search_container">
       <ion-searchbar class="search_container__searchbar" slot="start" [formControl]="searchField" debounce="100"
-        mode="ios" showCancelButton="focus" (ionChange)="filterUsersByName($event)">
+        mode="ios" showCancelButton="focus" (ionChange)="filterUsersByName()">
       </ion-searchbar>
       <ion-buttons slot="end">
         <ion-button (click)="openPopover($event)">
