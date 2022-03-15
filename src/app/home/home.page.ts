@@ -12,14 +12,12 @@ import { UserCardModalComponent } from '../components/user-card-modal/user-card-
 import { User, UserResults } from '../shared/interfaces/user.interface';
 import { LoadingService } from '../shared/services/loading/loading.service';
 import { HomeService } from './use-cases/home.service';
-import { fadeAnimation } from '../shared/services/fade/fade.service';
 import { GenderSelectComponent } from '../components/gender-select/gender-select.component';
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
-  animations: [fadeAnimation],
 })
 export class HomePage implements OnInit {
   @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
@@ -47,7 +45,7 @@ export class HomePage implements OnInit {
   }
 
   fetchUsers() {
-    this.loading.show();
+    //this.loading.show();
     this.homeService.getUsers(this.page).subscribe((resp) => {
       this.page++;
 
@@ -56,7 +54,7 @@ export class HomePage implements OnInit {
         : (this.users = resp.results);
 
       this.filterUsers();
-      this.loading.hide();
+      //this.loading.hide();
     });
   }
 

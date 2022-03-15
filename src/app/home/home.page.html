@@ -7,7 +7,7 @@
   <ion-toolbar>
     <div class="search_container">
       <ion-searchbar class="search_container__searchbar" slot="start" [formControl]="searchField" debounce="100"
-        mode="ios" showCancelButton="focus" (ionChange)="filterUsers()">
+        mode="ios" showCancelButton="focus" (ionChange)="filterUsers()" placeholder="Search by name or country">
       </ion-searchbar>
       <ion-buttons slot="end">
         <ion-button (click)="openPopover($event)">
@@ -20,8 +20,7 @@
 
 <ion-content>
   <ion-list>
-    <app-user-card [@fadeAnimation] *ngFor="let user of filterUsers(); let i = index" (click)="open(user)"
-      [user]="user">
+    <app-user-card [users]="filterUsers()" (selectedUser)="open($event)">
     </app-user-card>
   </ion-list>
 
@@ -31,3 +30,21 @@
   </ion-infinite-scroll>
 
 </ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <ion-tabs>
+      <!-- Tab bar -->
+      <ion-tab-bar slot="bottom" color="primary">
+        <ion-tab-button>
+          <ion-icon name="person"></ion-icon>
+        </ion-tab-button>
+        <ion-tab-button>
+          <ion-icon name="call"></ion-icon>
+        </ion-tab-button>
+        <ion-tab-button>
+          <ion-icon name="settings"></ion-icon>
+        </ion-tab-button>
+      </ion-tab-bar>
+    </ion-tabs>
+  </ion-toolbar>
+</ion-footer>

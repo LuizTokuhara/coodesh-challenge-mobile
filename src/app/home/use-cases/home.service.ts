@@ -15,7 +15,7 @@ export class HomeService {
 
   public getUsers(page: number = 1): Observable<UserResults> {
     return this.http.get<UserResults>(
-      `${ENDPOINTS.BASE_URL}?page=${page}&results=50`
+      `${ENDPOINTS.BASE_URL}?nat=us,dk,fr,gb,br&page=${page}&results=50`
     );
   }
 }

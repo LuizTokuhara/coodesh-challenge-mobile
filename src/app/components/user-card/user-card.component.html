@@ -1,29 +1,54 @@
-<div class="card_container ion-activatable">
-  <ion-ripple-effect></ion-ripple-effect>
-  <img class="card_container__avatar" [src]="user.picture.thumbnail" />
+<ion-list>
+  <ng-container *ngIf="users.length === 0">
+    <div class="card_container ion-activatable">
+      <ion-ripple-effect></ion-ripple-effect>
+      <div class="card_container__avatar">
+        <ion-skeleton-text animated style="width: 80px"></ion-skeleton-text>
+      </div>
 
-  <div class="card_container__right">
-    <h4 class="card_container__right__title">
-      {{user.name.title}} {{user.name.first}} {{user.name.last}}
-    </h4>
-    <ul>
-      <li class="card_container__right__content">
-        <ion-icon name="location-outline"></ion-icon> {{user.location.city}} / {{user.nat}}
-      </li>
-      <li class="card_container__right__content">
-        <span class="card_container__right__content align_left">
-          <ng-container *ngIf="user.gender === 'male'">
-            <ion-icon name="male-outline"></ion-icon> {{user.gender}}
-          </ng-container>
-          <ng-container *ngIf="user.gender === 'female'">
-            <ion-icon name="female-outline"></ion-icon> {{user.gender}}
-          </ng-container>
-        </span>
-        <span class="card_container__right__content align_right">
-          <ion-icon name="calendar-outline"></ion-icon> {{user.dob.date | date}}
-        </span>
-      </li>
-    </ul>
-  </div>
+      <div class="card_container__right">
+        <h4 class="card_container__right__title">
+          <ion-skeleton-text animated style="width: 100%"></ion-skeleton-text>
+        </h4>
+        <ul>
+          <li class="card_container__right__content">
+            <ion-skeleton-text animated style="width: 100%"></ion-skeleton-text>
+          </li>
+          <li class="card_container__right__content">
+            <ion-skeleton-text animated style="width: 100%"></ion-skeleton-text>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="users">
+    <div class="card_container ion-activatable" *ngFor="let user of users; let i = index" (click)="selected(user)">
+      <ion-ripple-effect></ion-ripple-effect>
+      <img class="card_container__avatar" [@fadeAnimation] [src]="user.picture.thumbnail" />
 
-</div>
+      <div class="card_container__right" [@fadeAnimation]>
+        <h4 class="card_container__right__title">
+          {{user.name.title}} {{user.name.first}} {{user.name.last}}
+        </h4>
+        <ul>
+          <li class="card_container__right__content">
+            <ion-icon name="location-outline"></ion-icon> {{user.location.city}} / {{user.nat}}
+          </li>
+          <li class="card_container__right__content">
+            <span class="card_container__right__content align_left">
+              <ng-container *ngIf="user.gender === 'male'">
+                <ion-icon name="male-outline"></ion-icon> {{user.gender}}
+              </ng-container>
+              <ng-container *ngIf="user.gender === 'female'">
+                <ion-icon name="female-outline"></ion-icon> {{user.gender}}
+              </ng-container>
+            </span>
+            <span class="card_container__right__content align_right">
+              <ion-icon name="calendar-outline"></ion-icon> {{user.dob.date | date}}
+            </span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </ng-container>
+</ion-list>
