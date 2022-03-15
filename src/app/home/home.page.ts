@@ -24,13 +24,15 @@ import { GenderSelectComponent } from '../components/gender-select/gender-select
 export class HomePage implements OnInit {
   @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
 
-  private userSubject$: BehaviorSubject<User[] | undefined> =
-    new BehaviorSubject(undefined);
+  // private userSubject$: BehaviorSubject<User[] | undefined> =
+  //   new BehaviorSubject(undefined);
 
-  public users$: Observable<User[]> = this.userSubject$.asObservable();
+  // public users$: Observable<User[]> = this.userSubject$.asObservable();
   private page: number = 1;
   public searchField: FormControl;
   public genderSelected: string = '';
+
+  public users: User[] = [];
 
   constructor(
     private modalCtrl: ModalController,
@@ -48,56 +50,106 @@ export class HomePage implements OnInit {
     this.loading.show();
     this.homeService.getUsers(this.page).subscribe((resp) => {
       this.page++;
-      this.userSubject$.value !== undefined
-        ? this.userSubject$.next([...this.userSubject$.value, ...resp.results])
-        : this.userSubject$.next(resp.results);
 
+      this.users.length
+        ? (this.users = [...this.users, ...resp.results])
+        : (this.users = resp.results);
+
+      this.filterUsers();
       this.loading.hide();
     });
   }
 
-  async filterUsersByName() {
-    const searchTerm$ = this.searchField.valueChanges.pipe(
-      startWith(this.searchField.value)
-    );
-
-    const userList$ = of(this.userSubject$.value);
-
-    return (this.users$ = combineLatest([
-      userList$,
-      of(this.searchField.value),
-    ]).pipe(
-      map(([userList, searchTerm]) =>
-        userList.filter((user) => {
-          return (
-            searchTerm === '' ||
-            user.name.first.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            user.name.last.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            (user.location.country
-              .toLowerCase()
-              .includes(searchTerm.toLowerCase()) &&
-              (this.genderSelected === '' ||
-                user.gender.toLowerCase() ===
-                  this.genderSelected.toLowerCase()))
-          );
-        })
-      )
-    ));
+  filterUsers() {
+    const userList = this.users;
+    return userList
+      .filter((user) => {
+        return (
+          this.searchField.value === '' ||
+          user.name.first
+            .toLowerCase()
+            .includes(this.searchField.value.toLowerCase()) ||
+          user.name.last
+            .toLowerCase()
+            .includes(this.searchField.value.toLowerCase()) ||
+          user.location.country
+            .toLowerCase()
+            .includes(this.searchField.value.toLowerCase())
+        );
+      })
+      .filter((user) => {
+        return (
+          this.genderSelected === '' ||
+          user.gender.toLowerCase() === this.genderSelected.toLowerCase()
+        );
+      });
+    // return userList.filter((user) => {
+    //   return (
+    //     this.searchField.value === '' ||
+    //     user.name.first
+    //       .toLowerCase()
+    //       .includes(this.searchField.value.toLowerCase()) ||
+    //     user.name.last
+    //       .toLowerCase()
+    //       .includes(this.searchField.value.toLowerCase()) ||
+    //     (user.location.country
+    //       .toLowerCase()
+    //       .includes(this.searchField.value.toLowerCase()) &&
+    //       (this.genderSelected === '' ||
+    //         user.gender.toLowerCase() === this.genderSelected.toLowerCase()))
+    //   );
+    // });
   }
 
+  // async filterUsersByName() {
+  //   const searchTerm$ = this.searchField.valueChanges.pipe(
+  //     startWith(this.searchField.value)
+  //   );
+
+  //   const userList$ = of(this.userSubject$.value);
+
+  //   return (this.users$ = combineLatest([
+  //     userList$,
+  //     of(this.searchField.value),
+  //   ]).pipe(
+  //     map(([userList, searchTerm]) =>
+  //       userList.filter((user) => {
+  //         return (
+  //           searchTerm === '' ||
+  //           user.name.first.toLowerCase().includes(searchTerm.toLowerCase()) ||
+  //           user.name.last.toLowerCase().includes(searchTerm.toLowerCase()) ||
+  //           (user.location.country
+  //             .toLowerCase()
+  //             .includes(searchTerm.toLowerCase()) &&
+  //             (this.genderSelected === '' ||
+  //               user.gender.toLowerCase() ===
+  //                 this.genderSelected.toLowerCase()))
+  //         );
+  //       })
+  //     )
+  //   ));
+  // }
+
   loadMore(event) {
-    if (!this.searchField.value && this.genderSelected === '') {
-      setTimeout(() => {
-        event.target.complete();
-        if (this.page === 5) {
-          event.target.disabled = true;
-        }
-        this.fetchUsers();
-      }, 500);
-    } else {
-      console.log('filter activated');
+    setTimeout(() => {
       event.target.complete();
-    }
+      if (this.page === 5) {
+        event.target.disabled = true;
+      }
+      this.fetchUsers();
+    }, 500);
+    // if (!this.searchField.value && this.genderSelected === '') {
+    //   setTimeout(() => {
+    //     event.target.complete();
+    //     if (this.page === 5) {
+    //       event.target.disabled = true;
+    //     }
+    //     this.fetchUsers();
+    //   }, 500);
+    // } else {
+    //   console.log('filter activated');
+    //   event.target.complete();
+    // }
   }
 
   async openPopover(ev: any) {
@@ -117,24 +169,24 @@ export class HomePage implements OnInit {
       data === 'clear'
         ? (this.genderSelected = '')
         : (this.genderSelected = data);
-      this.filterByGender();
+      this.filterUsers();
     }
   }
 
-  filterByGender() {
-    const userList$ = of(this.userSubject$.value);
-    const gender$ = of(this.genderSelected);
+  // filterByGender() {
+  //   const userList$ = of(this.userSubject$.value);
+  //   const gender$ = of(this.genderSelected);
 
-    this.users$ = combineLatest([userList$, gender$]).pipe(
-      map(([userList, genderTerm]) =>
-        userList.filter(
-          (user) =>
-            genderTerm === '' ||
-            user.gender.toLowerCase() === genderTerm.toLowerCase()
-        )
-      )
-    );
-  }
+  //   this.users$ = combineLatest([userList$, gender$]).pipe(
+  //     map(([userList, genderTerm]) =>
+  //       userList.filter(
+  //         (user) =>
+  //           genderTerm === '' ||
+  //           user.gender.toLowerCase() === genderTerm.toLowerCase()
+  //       )
+  //     )
+  //   );
+  // }
 
   async open(data) {
     const modal = await this.modalCtrl.create({
