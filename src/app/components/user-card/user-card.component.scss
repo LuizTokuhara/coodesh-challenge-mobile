@@ -13,6 +13,10 @@
   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
   background: linear-gradient(90deg, #00afad 0.2em, #fff 0.2em);
 
+  &:nth-child(even) {
+    background: linear-gradient(90deg, #f26522 0.2em, #fff 0.2em);
+  }
+
   &:first-child {
     margin-top: 20px;
   }
