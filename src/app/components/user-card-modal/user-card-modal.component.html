@@ -1,5 +1,5 @@
 <div class="card_spacer" (click)="dismiss()"></div>
-<div class="card_container">
+<div class="card_container" *ngIf="user">
   <div class="card_container__header">
 
     <img class="card_container__header__avatar" [src]="user.picture.large" />

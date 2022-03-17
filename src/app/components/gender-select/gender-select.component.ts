@@ -26,9 +26,7 @@ export class GenderSelectComponent implements OnInit {
 
   constructor(public popoverCtrl: PopoverController) {}
 
-  ngOnInit() {
-    console.log('component - ', this.itemSelected);
-  }
+  ngOnInit() {}
 
   selectGender(item) {
     if (item.name === 'Clear filters') {

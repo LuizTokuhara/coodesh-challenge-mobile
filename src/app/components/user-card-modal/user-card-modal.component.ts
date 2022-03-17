@@ -12,9 +12,7 @@ export class UserCardModalComponent implements OnInit {
 
   constructor(private modalCtrl: ModalController) {}
 
-  ngOnInit() {
-    console.log(this.user);
-  }
+  ngOnInit() {}
 
   dismiss() {
     this.modalCtrl.dismiss();

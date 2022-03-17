@@ -5,11 +5,13 @@ import {
   ModalController,
   PopoverController,
 } from '@ionic/angular';
+import { catchError } from 'rxjs/operators';
 import { UserCardModalComponent } from '../components/user-card-modal/user-card-modal.component';
 import { User } from '../shared/interfaces/user.interface';
 import { HomeService } from './use-cases/home.service';
 import { GenderSelectComponent } from '../components/gender-select/gender-select.component';
 import { UserFilterService } from '../shared/services/user-filter/user-filter.service';
+import { throwError } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -36,15 +38,27 @@ export class HomePage implements OnInit {
   }
 
   fetchUsers() {
-    this.homeService.getUsers(this.page).subscribe((resp) => {
-      this.page++;
+    this.homeService
+      .getUsers(this.page)
+      .pipe(
+        catchError((err) => {
+          return throwError(err);
+        })
+      )
+      .subscribe(
+        (resp) => {
+          this.page++;
 
-      this.users.length
-        ? (this.users = [...this.users, ...resp.results])
-        : (this.users = resp.results);
+          this.users.length
+            ? (this.users = [...this.users, ...resp.results])
+            : (this.users = resp.results);
 
-      this.filterUsers();
-    });
+          this.filterUsers();
+        },
+        (err) => {
+          console.error(err);
+        }
+      );
   }
 
   filterUsers() {

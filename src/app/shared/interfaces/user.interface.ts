@@ -23,7 +23,7 @@ export interface User {
     city: string;
     state: string;
     country: string;
-    postcode: string;
+    postcode: number;
     coordinates: {
       latitude: string;
       longitude: string;
@@ -44,6 +44,10 @@ export interface User {
     sha256: string;
   };
   dob: {
+    date: string;
+    age: number;
+  };
+  registered: {
     date: string;
     age: number;
   };
