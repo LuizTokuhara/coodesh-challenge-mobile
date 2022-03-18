@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { StatusBar, Style } from '@capacitor/status-bar';
 import { Platform } from '@ionic/angular';
+import { SplashScreen } from '@capacitor/splash-screen';
 
 @Component({
   selector: 'app-root',
@@ -9,11 +10,12 @@ import { Platform } from '@ionic/angular';
 })
 export class AppComponent {
   constructor(private platform: Platform) {
-    this.setStatusBarColor();
+    this.hideSplash();
   }
 
-  async setStatusBarColor() {
-    if (this.platform.is('hybrid')) {
+  async hideSplash() {
+    if (this.platform.ready() && this.platform.is('hybrid')) {
+      await SplashScreen.hide();
       await StatusBar.setOverlaysWebView({ overlay: true });
       await StatusBar.setStyle({ style: Style.Dark });
     }

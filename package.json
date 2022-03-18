@@ -9,7 +9,11 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "android:build": "ionic build && npx cap add android && node scripts/resources-android.js",
+    "android:device": "ionic build && npx cap copy && npx cap run android",
+    "ios:build": "ionic build && npx cap add ios && node scripts/resources-ios.js",
+    "ios:run:device": "ionic build && npx cap copy && npx cap run android"
   },
   "private": true,
   "dependencies": {
@@ -25,6 +29,7 @@
     "@capacitor/core": "3.4.3",
     "@capacitor/haptics": "1.1.4",
     "@capacitor/keyboard": "1.2.2",
+    "@capacitor/splash-screen": "^1.2.2",
     "@capacitor/status-bar": "^1.0.8",
     "@ionic/angular": "^6.0.0",
     "rxjs": "~6.6.0",
