@@ -1,8 +1,8 @@
 # Mobile Challenge Coodesh - Ionic
 
-## Apresentação
+## Tecnologias utilizadas
 
-Vídeo desafio [YouTube](https://www.youtube.com/watch?v=ppZ7npzc47o)
+Ionic, Angular e Capacitor.
 
 ## Abordagem
 

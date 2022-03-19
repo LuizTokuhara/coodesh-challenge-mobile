@@ -116,7 +116,7 @@ describe('HomePage', () => {
     });
   });
 
-  it('open a modal with user data', (done) => {
+  it('should open a modal with user data', (done) => {
     const modalCtrl = fixture.debugElement.injector.get(ModalController);
     spyOn(modalCtrl, 'create').and.callThrough();
 
