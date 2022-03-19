@@ -12,6 +12,7 @@ import { HomeService } from './use-cases/home.service';
 import { GenderSelectComponent } from '../components/gender-select/gender-select.component';
 import { UserFilterService } from '../shared/services/user-filter/user-filter.service';
 import { throwError } from 'rxjs';
+import { AlertService } from '../shared/services/alert/alert.service';
 
 @Component({
   selector: 'app-home',
@@ -29,6 +30,7 @@ export class HomePage implements OnInit {
     private modalCtrl: ModalController,
     private homeService: HomeService,
     private popover: PopoverController,
+    private alertService: AlertService,
     public userFilters: UserFilterService
   ) {}
 
@@ -57,6 +59,10 @@ export class HomePage implements OnInit {
         },
         (err) => {
           console.error(err);
+          this.alertService.errorAlert(
+            'Oops!',
+            'Something went wrong, try again later'
+          );
         }
       );
   }

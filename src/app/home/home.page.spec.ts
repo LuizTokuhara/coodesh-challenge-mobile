@@ -10,12 +10,13 @@ import { CommonModule, DatePipe } from '@angular/common';
 
 import { HomePage } from './home.page';
 import { HomeService } from './use-cases/home.service';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { UserMock } from '../shared/mocks/user.mock';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { UserCardComponent } from '../components/user-card/user-card.component';
 import { UserCardModalComponent } from '../components/user-card-modal/user-card-modal.component';
 import { GenderSelectComponent } from '../components/gender-select/gender-select.component';
+import { AlertService } from '../shared/services/alert/alert.service';
 
 class HomeServiceMock {
   getUsers() {
@@ -56,6 +57,10 @@ popoverCtrlSpy.create.and.callFake(function () {
   return popoverSpy;
 });
 
+class AlertServiceMock {
+  errorAlert(): void {}
+}
+
 describe('HomePage', () => {
   let component: HomePage;
   let fixture: ComponentFixture<HomePage>;
@@ -80,6 +85,7 @@ describe('HomePage', () => {
         providers: [
           { provide: ModalController, useClass: modalCtrlSpy },
           { provide: PopoverController, useValue: popoverCtrlSpy },
+          { provide: AlertService, useClass: AlertServiceMock },
           ModalController,
           HomeService,
         ],
@@ -122,17 +128,15 @@ describe('HomePage', () => {
     });
   });
 
-  it('open popover options', (done) => {
+  it('should call error alert', (done) => {
     spyOn(HomeService.prototype, 'getUsers').and.returnValue(
-      of(UserMock.userReturn)
+      throwError('Erro')
     );
+    const alert = spyOn(AlertService.prototype, 'errorAlert');
     component.fetchUsers();
 
-    const event = new CustomEvent('teste');
-    component.openPopover(event);
-
     fixture.whenStable().then(() => {
-      expect(popoverSpy.present).toHaveBeenCalled();
+      expect(alert).toBeTruthy();
       done();
     });
   });

@@ -13,7 +13,7 @@
     "android:build": "ionic build && npx cap add android && node scripts/resources-android.js",
     "android:device": "ionic build && npx cap copy && npx cap run android",
     "ios:build": "ionic build && npx cap add ios && node scripts/resources-ios.js",
-    "ios:run:device": "ionic build && npx cap copy && npx cap run android"
+    "ios:device": "ionic build && npx cap copy && npx cap run ios"
   },
   "private": true,
   "dependencies": {
@@ -28,6 +28,7 @@
     "@capacitor/app": "1.1.1",
     "@capacitor/core": "3.4.3",
     "@capacitor/haptics": "1.1.4",
+    "@capacitor/ios": "^3.4.3",
     "@capacitor/keyboard": "1.2.2",
     "@capacitor/splash-screen": "^1.2.2",
     "@capacitor/status-bar": "^1.0.8",

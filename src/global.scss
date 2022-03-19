@@ -42,3 +42,9 @@ body {
 .title-toolbar {
   padding-top: 20px !important;
 }
+
+.ios {
+  .title-toolbar {
+    padding-top: env(safe-area-inset-top) !important;
+  }
+}

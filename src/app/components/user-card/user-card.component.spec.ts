@@ -30,9 +30,10 @@ describe('UserCardComponent', () => {
   });
 
   it('should select first user', () => {
-    component.selected(UserMock.userReturn.results[0]);
     component.selectedUser.subscribe((resp) => {
-      expect(resp).toEqual(UserMock.userReturn.results[0]);
+      expect(resp).toBe(UserMock.userReturn.results[0]);
     });
+
+    component.selected(UserMock.userReturn.results[0]);
   });
 });

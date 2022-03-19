@@ -15,9 +15,13 @@ export class AppComponent {
 
   async hideSplash() {
     if (this.platform.ready() && this.platform.is('hybrid')) {
-      await SplashScreen.hide();
-      await StatusBar.setOverlaysWebView({ overlay: true });
-      await StatusBar.setStyle({ style: Style.Dark });
+      if (this.platform.is('android')) {
+        await StatusBar.setOverlaysWebView({ overlay: true });
+      }
+      await StatusBar.setStyle({ style: Style.Light });
+      await SplashScreen.hide({
+        fadeOutDuration: 2000,
+      });
     }
   }
 }
